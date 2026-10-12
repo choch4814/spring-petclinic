@@ -30,8 +30,8 @@ pipeline {
             steps {
             echo 'Docker Image Create'
             sh '''
-                docker build -t spring-petclinic:${BUILD_NEMBER} .
-                docker tag spring-petclinic:${BUILD_NEMBER} choch4814/spring-petclinic:latest
+                docker build -t spring-petclinic:${BUILD_NUMBER} .
+                docker tag spring-petclinic:${BUILD_NUMBER} choch4814/spring-petclinic:latest
                 '''
             }
         }
@@ -48,7 +48,7 @@ pipeline {
             post {
                 always {
                     sh '''
-                    docker rmi -f spring-petclinic:${BUILD_NEMBER}
+                    docker rmi -f spring-petclinic:${BUILD_NUMBER}
                     docker rmi -f choch4814/spring-petclinic:latest
                     '''
                 }
