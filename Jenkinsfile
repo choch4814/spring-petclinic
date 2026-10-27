@@ -56,16 +56,17 @@ pipeline {
         }
         // docker Image 삭제
         // SSH를 이용한 Docker 컨테이너 실행
-        stage('SSH Publish') {
+         // Kubernetes에 WAS 배포
+        stage('Kubernetes Deploy') {
             steps {
-                echo 'SSH Publish'
-                sshPublisher(publishers: [sshPublisherDesc(configName: 'target', 
-                transfers: [sshTransfer(cleanRemote: false, excludes: '', 
-                execCommand: '''
-                docker rmi -f $(docker ps -aq)
-                docker rmi -f $(docker images -q)
-                docker run -itd -p 80:8080 --name=spring-petclinic choch4814/spring-petclinic:latest
-                ''', 
+                echo 'Kubernetes Deploy'
+
+                sh '''
+                    kubectl apply -f k8s/spring-petclinic-deployment.yaml
+                    kubectl rollout status deployment/spring-petclinic --timeout=180s
+                '''
+            }
+        }
                 execTimeout: 120000, 
                 flatten: false, 
                 makeEmptyDirs: false, 
