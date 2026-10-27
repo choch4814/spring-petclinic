@@ -62,8 +62,8 @@ pipeline {
             steps {
                 echo 'Kubernetes Deploy'
                 sh '''
-                    kubectl apply -f k8s/spring-petclinic-deployment.yaml
-                    kubectl rollout status deployment/spring-petclinic --timeout=180s
+                    kubectl apply -n was -f k8s/spring-petclinic-deployment.yaml
+                    kubectl rollout status deployment/spring-petclinic -n was --timeout=180s
                 '''
             }
         }
